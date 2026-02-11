@@ -1,1 +1,260 @@
-# App
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DubClean | Premium Cleaning</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); }
+    .card-shadow { box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05); }
+    .btn-grad { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+    .hidden { display: none; }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 min-h-screen">
+
+  <nav class="glass sticky top-0 z-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+    <span class="text-2xl font-black tracking-tighter text-blue-600">DUB<span class="text-slate-800">CLEAN</span></span>
+    <div class="flex gap-4">
+      <button onclick="showScreen('worker-view')" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-blue-600 transition">Partner</button>
+      <button onclick="showScreen('client-view')" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-blue-600 transition">Book</button>
+    </div>
+  </nav>
+
+  <!-- CLIENT -->
+  <main id="client-view" class="max-w-md mx-auto p-6 animate-in fade-in duration-500">
+    <h1 class="text-3xl font-extrabold mb-2 italic">Clean home,</h1>
+    <h1 class="text-3xl font-extrabold mb-8 text-blue-600">clear mind.</h1>
+
+    <div class="bg-white p-6 rounded-3xl card-shadow mb-8 border border-slate-100">
+      <p class="text-slate-500 text-sm font-semibold mb-4 uppercase">Select Home Size</p>
+
+      <div class="flex gap-3 overflow-x-auto pb-2">
+        <button onclick="updatePrice(1, this)" class="bed-btn flex-1 bg-blue-50 border-2 border-blue-600 text-blue-600 py-4 rounded-2xl font-bold">1 Bed</button>
+        <button onclick="updatePrice(2, this)" class="bed-btn flex-1 bg-slate-50 border-2 border-transparent py-4 rounded-2xl font-bold text-slate-400">2 Beds</button>
+        <button onclick="updatePrice(3, this)" class="bed-btn flex-1 bg-slate-50 border-2 border-transparent py-4 rounded-2xl font-bold text-slate-400">3+ Beds</button>
+      </div>
+
+      <p class="text-[11px] text-slate-400 mt-4">
+        Estimated based on €17/hour. (1 bed=2h, 2 beds=3h, 3+=4h)
+      </p>
+    </div>
+
+    <h3 class="text-xl font-extrabold mb-4">Top Rated Cleaners</h3>
+
+    <div class="space-y-4 mb-24">
+      <div class="bg-white p-5 rounded-3xl card-shadow flex items-center gap-4 border border-slate-100">
+        <img src="https://i.pravatar.cc/150?u=a" class="w-16 h-16 rounded-2xl shadow-inner">
+        <div class="flex-1">
+          <h4 class="font-bold text-lg">Suelen M.</h4>
+          <div class="flex items-center gap-2">
+            <span class="text-yellow-500 text-sm font-bold">★ 5.0</span>
+            <span class="bg-blue-100 text-blue-600 text-[9px] px-2 py-0.5 rounded-full font-black">VERIFIED</span>
+          </div>
+        </div>
+        <div class="text-right">
+          <p class="font-black text-xl text-blue-600">€17/h</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed bottom-8 left-0 right-0 px-6">
+      <button onclick="openBookingModal()" class="w-full btn-grad text-white font-black py-5 rounded-2xl shadow-xl shadow-blue-200 flex justify-between px-8 items-center">
+        <span class="uppercase tracking-widest">Confirm Booking</span>
+        <span id="price-tag" class="text-xl">€34</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- WORKER -->
+  <main id="worker-view" class="max-w-md mx-auto p-6 hidden">
+    <div class="bg-slate-900 text-white p-8 rounded-[2rem] card-shadow mb-8 relative overflow-hidden">
+      <div class="relative z-10">
+        <p class="text-slate-400 font-medium">Your Balance</p>
+        <h2 class="text-4xl font-black mt-1">€480.00</h2>
+        <div class="mt-6 flex gap-4">
+          <div class="bg-white/10 p-3 rounded-xl backdrop-blur">
+            <p class="text-[10px] uppercase text-slate-400">Jobs done</p>
+            <p class="font-bold">12</p>
+          </div>
+          <div class="bg-white/10 p-3 rounded-xl backdrop-blur">
+            <p class="text-[10px] uppercase text-slate-400">Next Payout</p>
+            <p class="font-bold">Monday</p>
+          </div>
+        </div>
+      </div>
+      <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-600 rounded-full blur-3xl opacity-30"></div>
+    </div>
+
+    <h3 class="text-xl font-extrabold mb-4">Upcoming Jobs</h3>
+    <div class="bg-white p-6 rounded-3xl card-shadow border-l-4 border-blue-600">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <p class="font-black text-lg text-slate-800">Deep Cleaning</p>
+          <p class="text-slate-500 text-sm font-medium">Ranelagh, Dublin 6</p>
+        </div>
+        <span class="bg-blue-50 text-blue-600 font-bold px-3 py-1 rounded-lg text-xs">Today, 2pm</span>
+      </div>
+      <button class="w-full bg-slate-100 text-slate-800 font-bold py-3 rounded-xl text-sm">View Details</button>
+    </div>
+  </main>
+
+  <!-- MODAL -->
+  <div id="booking-modal" class="fixed inset-0 hidden z-50">
+    <div class="absolute inset-0 bg-black/40" onclick="closeBookingModal()"></div>
+
+    <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-[2rem] p-6 card-shadow border border-slate-100">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-black">Complete your booking</h3>
+        <button onclick="closeBookingModal()" class="text-slate-400 font-black text-xl">✕</button>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-slate-400">Date</label>
+          <input id="bk-date" type="date" class="w-full mt-2 p-4 rounded-2xl border border-slate-200 bg-slate-50 font-semibold">
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-slate-400">Time</label>
+          <input id="bk-time" type="time" class="w-full mt-2 p-4 rounded-2xl border border-slate-200 bg-slate-50 font-semibold">
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-widest text-slate-400">Address</label>
+          <input id="bk-address" type="text" placeholder="Street, area..." class="w-full mt-2 p-4 rounded-2xl border border-slate-200 bg-slate-50 font-semibold">
+        </div>
+
+        <div class="grid grid-cols-1 gap-3 mt-2">
+          <button onclick="sendBookingEmail()" class="w-full bg-slate-900 text-white font-black py-4 rounded-2xl">
+            Confirm via Email
+          </button>
+
+          <button onclick="payWithStripe()" class="w-full btn-grad text-white font-black py-4 rounded-2xl">
+            Pay Deposit (€10) with Stripe
+          </button>
+        </div>
+
+        <p class="text-[11px] text-slate-400 text-center">
+          Deposit secures your slot. You can also book without payment by email.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // CONFIG
+    const BUSINESS_EMAIL = "seuemail@dominio.com";
+    const BACKEND_URL = "https://SEU-BACKEND.onrender.com";
+
+    let selectedBeds = 1;
+
+    function showScreen(id) {
+      document.getElementById('client-view').classList.add('hidden');
+      document.getElementById('worker-view').classList.add('hidden');
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function openBookingModal() {
+      document.getElementById("booking-modal").classList.remove("hidden");
+    }
+
+    function closeBookingModal() {
+      document.getElementById("booking-modal").classList.add("hidden");
+    }
+
+    function updatePrice(beds, btn) {
+      selectedBeds = beds;
+
+      const hourlyRate = 17;
+      const hoursMap = { 1: 2, 2: 3, 3: 4 };
+      const total = hourlyRate * hoursMap[beds];
+
+      document.getElementById("price-tag").innerText = "€" + total;
+
+      document.querySelectorAll('.bed-btn').forEach(b => {
+        b.classList.remove('bg-blue-50','border-blue-600','text-blue-600');
+        b.classList.add('bg-slate-50','border-transparent','text-slate-400');
+      });
+
+      if (btn) {
+        btn.classList.remove('bg-slate-50','border-transparent','text-slate-400');
+        btn.classList.add('bg-blue-50','border-blue-600','text-blue-600');
+      }
+    }
+
+    function getBookingData() {
+      const date = document.getElementById("bk-date").value;
+      const time = document.getElementById("bk-time").value;
+      const address = document.getElementById("bk-address").value;
+      const price = document.getElementById("price-tag").innerText;
+
+      if (!date || !time || !address) {
+        alert("Please fill date, time and address.");
+        return null;
+      }
+
+      return { date, time, address, price, beds: selectedBeds };
+    }
+
+    function sendBookingEmail() {
+      const data = getBookingData();
+      if (!data) return;
+
+      const subject = `DubClean Booking Request (${data.beds} bed)`;
+      const body =
+`Hi DubClean,
+
+I want to book a cleaning.
+
+Home size: ${data.beds} bed(s)
+Date: ${data.date}
+Time: ${data.time}
+Address: ${data.address}
+Estimated total: ${data.price}
+
+Thanks!`;
+
+      window.location.href =
+        `mailto:${BUSINESS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    async function payWithStripe() {
+      const data = getBookingData();
+      if (!data) return;
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/create-checkout-session`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const json = await res.json();
+        if (!json.url) throw new Error("Stripe URL not returned");
+
+        window.location.href = json.url;
+      } catch (err) {
+        alert("Payment error: " + err.message);
+      }
+    }
+
+    // PWA service worker
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js");
+    }
+  </script>
+</body>
+</html>
